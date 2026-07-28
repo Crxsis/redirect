@@ -8,7 +8,7 @@
   <p>Loading redirection... <a id="fallback" href="/">Go Home</a></p>
 
   <script>
-    // 1. Get the current URL slug (e.g., "/dropbox" or "/youtube")
+    // 1. Get the current URL slug (e.g. "/dropbox")
     const path = window.location.pathname.replace(/\/$/, ""); 
 
     // 2. Fetch your database of links
@@ -20,7 +20,7 @@
           window.location.replace(data[path]);
         } else {
           // If the link doesn't exist, send them to your main homepage
-          document.getElementById('fallback').innerText = "Link not found. Click to go home.";
+          document.getElementById('fallback').innerText = "Link not found...";
           window.location.replace("/");
         }
       })

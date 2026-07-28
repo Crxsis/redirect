@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <p>Loading redirection... <a id="fallback" href="/">Go Home</a></p>
+
+  <script>
+    // 1. Get the current URL slug (e.g., "/dropbox" or "/youtube")
+    const path = window.location.pathname.replace(/\/$/, ""); 
+
+    // 2. Fetch your database of links
+    fetch('/redirects.json')
+      .then(response => response.json())
+      .then(data => {
+        // 3. Look for a matching destination
+        if (data[path]) {
+          window.location.replace(data[path]);
+        } else {
+          // If the link doesn't exist, send them to your main homepage
+          document.getElementById('fallback').innerText = "Link not found. Click to go home.";
+          window.location.replace("/");
+        }
+      })
+      .catch(err => {
+        console.error("Redirect error:", err);
+        window.location.replace("/");
+      });
+  </script>
+</body>
+</html>

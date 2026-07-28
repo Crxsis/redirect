@@ -269,8 +269,8 @@
       text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
       text-align: center;
       z-index: 2;
-      /* Pulse in sync with the glow ring (3.2s, same easing) */
-      animation: subtitlePulse 3.2s ease-in-out infinite;
+      /* Pulse at 2x the glow ring speed (1.6s vs ring's 3.2s) */
+      animation: subtitlePulse 1.6s ease-in-out infinite;
     }
 
     @keyframes subtitlePulse {
@@ -342,7 +342,15 @@
       .bracket.tr { top: 12px; right: 12px; }
       .bracket.bl { bottom: 12px; left: 12px; }
       .bracket.br { bottom: 12px; right: 12px; }
-      .hex-icon { width: 30px; height: 30px; }
+      .hex-icon { width: 36px; height: 36px; }
+
+      /* Stack icon above title, both centered */
+      .logo-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+      }
     }
 
     /* ═══════════════════════════════════════════════════════════════════════

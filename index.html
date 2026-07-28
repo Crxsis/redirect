@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cx2c Redirect Network</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --lime: #39ff14;
+      --lime-dim: #1aad00;
+      --lime-glow: rgba(57, 255, 20, 0.45);
+      --black: #000000;
+      --dark: #050505;
+      --grid: rgba(57, 255, 20, 0.06);
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: var(--black);
+      color: var(--lime);
+      font-family: 'Share Tech Mono', monospace;
+      overflow: hidden;
+    }
+
+    /* Animated grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridShift 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes gridShift {
+      0%   { background-position: 0 0, 0 0; }
+      100% { background-position: 0 40px, 40px 0; }
+    }
+
+    /* Scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.18) 3px,
+        rgba(0, 0, 0, 0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      gap: 0;
+    }
+
+    /* Corner brackets */
+    .bracket {
+      position: fixed;
+      width: 48px;
+      height: 48px;
+      z-index: 3;
+      opacity: 0.55;
+    }
+    .bracket::before,
+    .bracket::after {
+      content: '';
+      position: absolute;
+      background: var(--lime);
+    }
+    .bracket::before { width: 100%; height: 3px; }
+    .bracket::after  { width: 3px;  height: 100%; }
+
+    .bracket.tl { top: 18px; left: 18px; }
+    .bracket.tl::before { top: 0; left: 0; }
+    .bracket.tl::after  { top: 0; left: 0; }
+
+    .bracket.tr { top: 18px; right: 18px; transform: scaleX(-1); }
+    .bracket.tr::before { top: 0; left: 0; }
+    .bracket.tr::after  { top: 0; left: 0; }
+
+    .bracket.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+    .bracket.bl::before { top: 0; left: 0; }
+    .bracket.bl::after  { top: 0; left: 0; }
+
+    .bracket.br { bottom: 18px; right: 18px; transform: scale(-1); }
+    .bracket.br::before { top: 0; left: 0; }
+    .bracket.br::after  { top: 0; left: 0; }
+
+    /* Glowing ring behind title */
+    .glow-ring {
+      position: absolute;
+      width: min(420px, 80vw);
+      height: min(420px, 80vw);
+      border-radius: 50%;
+      border: 1px solid var(--lime-glow);
+      box-shadow:
+        0 0 40px 6px var(--lime-glow),
+        inset 0 0 40px 6px rgba(57,255,20,0.06);
+      animation: pulse 3.2s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%       { opacity: 0.9; transform: scale(1.04); }
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .hex-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.5rem, 5vw, 3.2rem);
+      letter-spacing: 0.04em;
+      text-align: center;
+      color: var(--lime);
+      text-shadow:
+        0 0 8px var(--lime),
+        0 0 24px var(--lime-glow),
+        0 0 60px rgba(57,255,20,0.2);
+      animation: flicker 6s infinite;
+      line-height: 1.15;
+    }
+
+    @keyframes flicker {
+      0%, 92%, 94%, 96%, 100% { opacity: 1; }
+      93%                      { opacity: 0.72; }
+      95%                      { opacity: 0.88; }
+    }
+
+    .divider {
+      width: clamp(160px, 40vw, 340px);
+      height: 1px;
+      margin: 22px 0 20px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--lime-dim) 20%,
+        var(--lime) 50%,
+        var(--lime-dim) 80%,
+        transparent
+      );
+      box-shadow: 0 0 10px var(--lime-glow);
+    }
+
+    .subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.85rem, 2.8vw, 1.2rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--lime-dim);
+      text-shadow: 0 0 10px rgba(57,255,20,0.3);
+      text-align: center;
+    }
+
+    /* Blinking cursor after subtitle */
+    .subtitle::after {
+      content: '_';
+      animation: blink 1.1s step-start infinite;
+      color: var(--lime);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .status-row {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: rgba(57,255,20,0.4);
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+      animation: dotPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--lime); }
+      50%       { opacity: 0.3; box-shadow: none; }
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 480px) {
+      .bracket { width: 32px; height: 32px; }
+      .bracket { top: 12px !important; bottom: 12px !important; left: 12px !important; right: 12px !important; }
+      .hex-icon { width: 34px; height: 34px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Corner brackets -->
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
+
+  <div class="container">
+    <div class="glow-ring"></div>
+
+    <div class="logo-row">
+      <!-- Inline SVG hex icon -->
+      <svg class="hex-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="32,4 58,18 58,46 32,60 6,46 6,18"
+                 stroke="#39ff14" stroke-width="2.5" fill="none"
+                 filter="url(#glow)" />
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+              font-family="'Orbitron',sans-serif" font-weight="900"
+              font-size="18" fill="#39ff14">CX</text>
+        <defs>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+      </svg>
+
+      <h1 class="title">Cx2c Redirect Network</h1>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="subtitle">Try your link again</p>
+
+    <div class="status-row">
+      <div class="dot"></div>
+      <span>Node active &nbsp;|&nbsp; Routing engine online</span>
+    </div>
+  </div>
+
+</body>
+</html>

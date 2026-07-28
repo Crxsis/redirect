@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cx2c Redirect Network — Downloads</title>
+  <script>document.documentElement.style.backgroundColor = '#000';</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --lime: #39ff14;
+      --lime-dim: #1aad00;
+      --lime-glow: rgba(57, 255, 20, 0.45);
+      --lime-faint: rgba(57, 255, 20, 0.08);
+      --black: #000000;
+      --grid: rgba(57, 255, 20, 0.05);
+    }
+
+    html, body {
+      min-height: 100%;
+      width: 100%;
+      background-color: var(--black);
+      color: var(--lime);
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    /* ─── Animated grid background ─────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridShift 20s linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes gridShift {
+      0%   { background-position: 0 0, 0 0; }
+      100% { background-position: 0 40px, 40px 0; }
+    }
+
+    /* ─── Scanline overlay ──────────────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.18) 3px,
+        rgba(0, 0, 0, 0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── Corner brackets ───────────────────────────────────────────────── */
+    .bracket {
+      position: fixed;
+      width: 48px;
+      height: 48px;
+      z-index: 3;
+      opacity: 0.55;
+    }
+    .bracket::before,
+    .bracket::after {
+      content: '';
+      position: absolute;
+      background: var(--lime);
+    }
+    .bracket::before { width: 100%; height: 3px; }
+    .bracket::after  { width: 3px;  height: 100%; }
+
+    .bracket.tl { top: 18px; left: 18px; }
+    .bracket.tl::before { top: 0; left: 0; }
+    .bracket.tl::after  { top: 0; left: 0; }
+
+    .bracket.tr { top: 18px; right: 18px; transform: scaleX(-1); }
+    .bracket.tr::before { top: 0; left: 0; }
+    .bracket.tr::after  { top: 0; left: 0; }
+
+    .bracket.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+    .bracket.bl::before { top: 0; left: 0; }
+    .bracket.bl::after  { top: 0; left: 0; }
+
+    .bracket.br { bottom: 18px; right: 18px; transform: scale(-1); }
+    .bracket.br::before { top: 0; left: 0; }
+    .bracket.br::after  { top: 0; left: 0; }
+
+    /* ─── Main container ────────────────────────────────────────────────── */
+    .container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 1.5rem 80px;
+      gap: 0;
+    }
+
+    /* ─── Logo row ──────────────────────────────────────────────────────── */
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .hex-icon { width: 40px; height: 40px; flex-shrink: 0; }
+
+    /* ─── Title ─────────────────────────────────────────────────────────── */
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 4.5vw, 2.8rem);
+      letter-spacing: 0.04em;
+      text-align: center;
+      color: var(--lime);
+      text-shadow:
+        0 0 8px var(--lime),
+        0 0 24px var(--lime-glow),
+        0 0 60px rgba(57, 255, 20, 0.2);
+      animation: flicker 6s infinite;
+      line-height: 1.15;
+    }
+
+    @keyframes flicker {
+      0%, 92%, 94%, 96%, 100% { opacity: 1; }
+      93%                      { opacity: 0.72; }
+      95%                      { opacity: 0.88; }
+    }
+
+    /* ─── Divider ───────────────────────────────────────────────────────── */
+    .divider {
+      width: clamp(160px, 40vw, 320px);
+      height: 1px;
+      margin: 18px 0 22px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--lime-dim) 20%,
+        var(--lime) 50%,
+        var(--lime-dim) 80%,
+        transparent
+      );
+      box-shadow: 0 0 10px var(--lime-glow);
+    }
+
+    /* ─── Status label ──────────────────────────────────────────────────── */
+    .status-label {
+      font-size: clamp(0.8rem, 2.4vw, 1rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lime-dim);
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+      text-align: center;
+      min-height: 1.5em;
+      transition: color 0.4s ease;
+    }
+
+    /* ─── Big countdown ring ────────────────────────────────────────────── */
+    .countdown-wrap {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: 22px 0 18px;
+      flex-shrink: 0;
+    }
+
+    .countdown-svg {
+      width: 110px;
+      height: 110px;
+      transform: rotate(-90deg);
+    }
+
+    .countdown-track {
+      fill: none;
+      stroke: rgba(57, 255, 20, 0.1);
+      stroke-width: 5;
+    }
+
+    .countdown-ring {
+      fill: none;
+      stroke: var(--lime);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 283; /* 2π × 45 */
+      stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 6px var(--lime));
+      transition: stroke-dashoffset 1s linear, stroke 0.4s ease, filter 0.4s ease;
+    }
+
+    .countdown-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--lime);
+      text-shadow: 0 0 12px var(--lime);
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    /* Done state — static, no countdown */
+    .countdown-wrap.done .countdown-ring {
+      stroke: var(--lime);
+      stroke-dashoffset: 0;
+      animation: pulse-ring 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    /* ─── Overall progress bar ──────────────────────────────────────────── */
+    .overall-wrap {
+      width: clamp(220px, 60vw, 480px);
+      margin-bottom: 6px;
+    }
+
+    .overall-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(57, 255, 20, 0.4);
+      margin-bottom: 6px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 3px;
+      background: rgba(57, 255, 20, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+
+    /* ─── Download queue list ───────────────────────────────────────────── */
+    .queue-wrap {
+      width: clamp(260px, 70vw, 540px);
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(57, 255, 20, 0.1);
+      border-radius: 2px;
+      background: rgba(57, 255, 20, 0.03);
+      transition: border-color 0.4s ease, background 0.4s ease;
+      opacity: 0.4;
+    }
+
+    .queue-item.active {
+      border-color: var(--lime);
+      background: rgba(57, 255, 20, 0.07);
+      box-shadow: 0 0 12px rgba(57, 255, 20, 0.1);
+      opacity: 1;
+    }
+
+    .queue-item.done {
+      border-color: rgba(57, 255, 20, 0.3);
+      background: rgba(57, 255, 20, 0.04);
+      opacity: 0.6;
+    }
+
+    .queue-item.pending {
+      opacity: 0.3;
+    }
+
+    /* Status icon */
+    .q-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .q-name {
+      flex: 1;
+      font-size: clamp(0.7rem, 2vw, 0.85rem);
+      letter-spacing: 0.1em;
+      color: var(--lime);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .q-status {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(57, 255, 20, 0.5);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .queue-item.active .q-status { color: var(--lime); }
+    .queue-item.done   .q-status { color: var(--lime-dim); }
+
+    /* ─── All done message ──────────────────────────────────────────────── */
+    .done-msg {
+      margin-top: 28px;
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--lime);
+      text-shadow:
+        0 0 10px var(--lime),
+        0 0 28px var(--lime-glow),
+        0 0 55px rgba(57, 255, 20, 0.25);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: subtitlePulse 1.6s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    .done-msg.visible {
+      opacity: 1;
+      animation-play-state: running;
+    }
+
+    .done-msg::after {
+      content: '_';
+      animation: blink 1.1s step-start infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    @keyframes subtitlePulse {
+      0%, 100% { opacity: 0.45; }
+      50%       { opacity: 1; }
+    }
+
+    /* ─── Bottom status row ─────────────────────────────────────────────── */
+    .status-row {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: rgba(57, 255, 20, 0.35);
+      text-transform: uppercase;
+      z-index: 3;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+      animation: dotPulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ─── Mobile ────────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .bracket { width: 32px; height: 32px; }
+      .bracket.tl { top: 12px; left: 12px; }
+      .bracket.tr { top: 12px; right: 12px; }
+      .bracket.bl { bottom: 12px; left: 12px; }
+      .bracket.br { bottom: 12px; right: 12px; }
+      .hex-icon { width: 36px; height: 36px; }
+      .logo-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+      }
+      .queue-wrap { width: 92vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Corner brackets -->
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="logo-row">
+      <svg class="hex-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="32,4 58,18 58,46 32,60 6,46 6,18"
+                 stroke="#39ff14" stroke-width="2.5" fill="none"
+                 filter="url(#glow)" />
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+              font-family="'Orbitron',sans-serif" font-weight="900"
+              font-size="18" fill="#39ff14">CC</text>
+        <defs>
+          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+      </svg>
+      <h1 class="title">Cx2c Redirect Network</h1>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="status-label" id="statusLabel">Initializing download queue...</p>
+
+    <!-- Countdown ring -->
+    <div class="countdown-wrap" id="countdownWrap">
+      <svg class="countdown-svg" viewBox="0 0 110 110">
+        <circle class="countdown-track" cx="55" cy="55" r="45"/>
+        <circle class="countdown-ring" id="countdownRing" cx="55" cy="55" r="45"/>
+      </svg>
+      <div class="countdown-number" id="countdownNumber">—</div>
+    </div>
+
+    <!-- Overall progress -->
+    <div class="overall-wrap">
+      <div class="overall-label">
+        <span>Overall Progress</span>
+        <span id="progressLabel">0 / 0</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <!-- Queue -->
+    <div class="queue-wrap" id="queueWrap"></div>
+
+    <!-- All done -->
+    <p class="done-msg" id="doneMsg">All downloads complete</p>
+
+  </div>
+
+  <!-- Bottom status bar -->
+  <div class="status-row">
+    <div class="dot"></div>
+    <span id="nodeStatus">Download engine online &nbsp;|&nbsp; Standby</span>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════════════
+    //  ↓↓↓  CONFIGURE YOUR DOWNLOADS HERE  ↓↓↓
+    //
+    //  Each entry needs:
+    //    name  — display label shown in the queue UI
+    //    url   — the direct download link
+    //
+    //  The page will trigger them one at a time, 3 seconds apart.
+    // ═══════════════════════════════════════════════════════════════════════
+    var DOWNLOADS = [
+      { name: 'File One',   url: 'https://example.com/file1.zip' },
+      { name: 'File Two',   url: 'https://example.com/file2.zip' },
+      { name: 'File Three', url: 'https://example.com/file3.zip' },
+    ];
+
+    var INTERVAL_MS = 3000; // milliseconds between each download (3 seconds)
+    // ═══════════════════════════════════════════════════════════════════════
+
+
+
+    // ── DOM refs ─────────────────────────────────────────────────────────
+    var statusLabel    = document.getElementById('statusLabel');
+    var countdownWrap  = document.getElementById('countdownWrap');
+    var countdownRing  = document.getElementById('countdownRing');
+    var countdownNum   = document.getElementById('countdownNumber');
+    var progressBar    = document.getElementById('progressBar');
+    var progressLabel  = document.getElementById('progressLabel');
+    var queueWrap      = document.getElementById('queueWrap');
+    var doneMsg        = document.getElementById('doneMsg');
+    var nodeStatus     = document.getElementById('nodeStatus');
+
+    var CIRCUMFERENCE = 283; // 2π × 45
+    var total         = DOWNLOADS.length;
+    var currentIndex  = 0;
+    var countdownTimer, countdownInterval;
+
+    // ── Build queue UI ────────────────────────────────────────────────────
+    function buildQueue() {
+      queueWrap.innerHTML = '';
+      DOWNLOADS.forEach(function (dl, i) {
+        var item = document.createElement('div');
+        item.className = 'queue-item pending';
+        item.id = 'q-' + i;
+        item.innerHTML =
+          '<div class="q-icon" id="qi-' + i + '">○</div>' +
+          '<div class="q-name">' + escapeHtml(dl.name) + '</div>' +
+          '<div class="q-status" id="qs-' + i + '">Queued</div>';
+        queueWrap.appendChild(item);
+      });
+      progressLabel.textContent = '0 / ' + total;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── Countdown ring ────────────────────────────────────────────────────
+    function startCountdown(seconds, onComplete) {
+      var remaining = seconds;
+      setRing(remaining, seconds);
+      countdownNum.textContent = remaining;
+
+      countdownInterval = setInterval(function () {
+        remaining--;
+        setRing(remaining, seconds);
+        countdownNum.textContent = remaining > 0 ? remaining : '↓';
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          onComplete();
+        }
+      }, 1000);
+    }
+
+    function setRing(remaining, total) {
+      var pct    = remaining / total;
+      var offset = CIRCUMFERENCE * (1 - pct);
+      countdownRing.style.strokeDashoffset = offset;
+    }
+
+    // ── Fire a download ───────────────────────────────────────────────────
+    function triggerDownload(url) {
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = '';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { document.body.removeChild(a); }, 200);
+    }
+
+    // ── Update queue item appearance ──────────────────────────────────────
+    function setItemState(i, state) {
+      var item   = document.getElementById('q-' + i);
+      var icon   = document.getElementById('qi-' + i);
+      var status = document.getElementById('qs-' + i);
+      if (!item) return;
+      item.className = 'queue-item ' + state;
+      if (state === 'active') {
+        icon.textContent   = '▶';
+        status.textContent = 'Downloading...';
+      } else if (state === 'done') {
+        icon.textContent   = '✓';
+        status.textContent = 'Complete';
+      } else {
+        icon.textContent   = '○';
+        status.textContent = 'Queued';
+      }
+    }
+
+    // ── Main sequence ─────────────────────────────────────────────────────
+    function processNext() {
+      if (currentIndex >= total) {
+        allDone();
+        return;
+      }
+
+      var dl = DOWNLOADS[currentIndex];
+
+      // Mark item active
+      setItemState(currentIndex, 'active');
+
+      // Update labels
+      statusLabel.textContent = 'Downloading ' + (currentIndex + 1) + ' of ' + total + '...';
+      nodeStatus.textContent  = 'Dispatching: ' + dl.name;
+
+      // Fire the download
+      triggerDownload(dl.url);
+
+      // Update overall progress (item is in progress, count it as +0.5 visually)
+      var pct = ((currentIndex) / total) * 100;
+      progressBar.style.width = pct + '%';
+      progressLabel.textContent = currentIndex + ' / ' + total;
+
+      // If this is the last one, skip countdown UI and finish
+      if (currentIndex === total - 1) {
+        // Mark done after a beat
+        setTimeout(function () {
+          setItemState(currentIndex, 'done');
+          currentIndex++;
+          progressBar.style.width = '100%';
+          progressLabel.textContent = total + ' / ' + total;
+          allDone();
+        }, 800);
+        return;
+      }
+
+      // Show countdown to next download
+      var secsTotal = Math.round(INTERVAL_MS / 1000);
+      countdownNum.textContent = secsTotal;
+      setRing(secsTotal, secsTotal);
+
+      startCountdown(secsTotal, function () {
+        setItemState(currentIndex, 'done');
+        currentIndex++;
+        // Brief pause before next item activates
+        setTimeout(processNext, 150);
+      });
+    }
+
+    function allDone() {
+      statusLabel.textContent   = 'All downloads dispatched.';
+      nodeStatus.textContent    = 'Queue complete  |  All files delivered';
+      countdownWrap.classList.add('done');
+      countdownNum.textContent  = '✓';
+      countdownRing.style.strokeDashoffset = '0';
+      doneMsg.classList.add('visible');
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────
+    buildQueue();
+
+    // Short delay before starting so the UI renders first
+    setTimeout(function () {
+      statusLabel.textContent = 'Starting download sequence...';
+      setTimeout(processNext, 800);
+    }, 600);
+
+  </script>
+</body>
+</html>

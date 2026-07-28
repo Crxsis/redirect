@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cx2c Redirect Network</title>
+  <!-- Always pin black before CSS parses — eliminates white flash on any load -->
+  <script>document.documentElement.style.backgroundColor = '#000';</script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
 
@@ -360,6 +362,8 @@
     .status-row {
       position: fixed;
       bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -369,6 +373,7 @@
       text-transform: uppercase;
       z-index: 3;
       transition: color 0.6s ease;
+      white-space: nowrap;
     }
 
     body.state-error .status-row {

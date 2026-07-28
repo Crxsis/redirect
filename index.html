@@ -12,6 +12,8 @@
     animation:none applies at first paint with zero race condition.
   -->
   <script>
+    /* Always pin black before CSS parses — eliminates white flash on any load */
+    document.documentElement.style.backgroundColor = '#000';
     if (sessionStorage.getItem('cx2c_from_error')) {
       document.documentElement.setAttribute('data-instant', '');
       document.documentElement.style.opacity = '0';
@@ -284,6 +286,8 @@
     .status-row {
       position: fixed;
       bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -292,6 +296,7 @@
       color: rgba(255, 42, 42, 0.35);
       text-transform: uppercase;
       z-index: 3;
+      white-space: nowrap;
     }
 
     .dot {

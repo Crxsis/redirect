@@ -14,19 +14,18 @@
     }
 
     :root {
-      --lime: #39ff14;
-      --lime-dim: #1aad00;
-      --lime-glow: rgba(57, 255, 20, 0.45);
+      --red: #ff2a2a;
+      --red-dim: #aa0000;
+      --red-glow: rgba(255, 42, 42, 0.45);
       --black: #000000;
-      --dark: #050505;
-      --grid: rgba(57, 255, 20, 0.06);
+      --grid: rgba(255, 42, 42, 0.05);
     }
 
     html, body {
       height: 100%;
       width: 100%;
       background-color: var(--black);
-      color: var(--lime);
+      color: var(--red);
       font-family: 'Share Tech Mono', monospace;
       overflow: hidden;
     }
@@ -65,32 +64,19 @@
       z-index: 1;
     }
 
-    .container {
-      position: relative;
-      z-index: 2;
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      gap: 0;
-    }
-
     /* Corner brackets */
     .bracket {
       position: fixed;
       width: 48px;
       height: 48px;
       z-index: 3;
-      opacity: 0.55;
+      opacity: 0.65;
     }
     .bracket::before,
     .bracket::after {
       content: '';
       position: absolute;
-      background: var(--lime);
+      background: var(--red);
     }
     .bracket::before { width: 100%; height: 3px; }
     .bracket::after  { width: 3px;  height: 100%; }
@@ -111,89 +97,168 @@
     .bracket.br::before { top: 0; left: 0; }
     .bracket.br::after  { top: 0; left: 0; }
 
-    /* Glowing ring behind title */
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* Glow ring */
     .glow-ring {
       position: absolute;
-      width: min(420px, 80vw);
-      height: min(420px, 80vw);
+      width: min(400px, 78vw);
+      height: min(400px, 78vw);
       border-radius: 50%;
-      border: 1px solid var(--lime-glow);
+      border: 1px solid var(--red-glow);
       box-shadow:
-        0 0 40px 6px var(--lime-glow),
-        inset 0 0 40px 6px rgba(57,255,20,0.06);
+        0 0 40px 6px var(--red-glow),
+        inset 0 0 40px 6px rgba(255, 42, 42, 0.06);
       animation: pulse 3.2s ease-in-out infinite;
       z-index: 1;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50%       { opacity: 0.9; transform: scale(1.04); }
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50%       { opacity: 1;    transform: scale(1.04); }
     }
 
+    /* Logo row */
     .logo-row {
       display: flex;
       align-items: center;
       gap: 14px;
       margin-bottom: 18px;
+      z-index: 2;
     }
 
-    .hex-icon {
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-    }
+    .hex-icon { width: 40px; height: 40px; flex-shrink: 0; }
 
+    /* Title */
     .title {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
-      font-size: clamp(1.5rem, 5vw, 3.2rem);
+      font-size: clamp(1.4rem, 4.5vw, 2.8rem);
       letter-spacing: 0.04em;
       text-align: center;
-      color: var(--lime);
+      color: var(--red);
       text-shadow:
-        0 0 8px var(--lime),
-        0 0 24px var(--lime-glow),
-        0 0 60px rgba(57,255,20,0.2);
-      animation: flicker 6s infinite;
+        0 0 8px var(--red),
+        0 0 24px var(--red-glow),
+        0 0 60px rgba(255, 42, 42, 0.2);
+      animation: flicker 5s infinite;
       line-height: 1.15;
     }
 
     @keyframes flicker {
-      0%, 92%, 94%, 96%, 100% { opacity: 1; }
-      93%                      { opacity: 0.72; }
-      95%                      { opacity: 0.88; }
+      0%, 90%, 92%, 94%, 100% { opacity: 1; }
+      91%                      { opacity: 0.65; }
+      93%                      { opacity: 0.85; }
     }
 
+    /* Divider */
     .divider {
-      width: clamp(160px, 40vw, 340px);
+      width: clamp(160px, 40vw, 320px);
       height: 1px;
-      margin: 22px 0 20px;
+      margin: 20px 0 18px;
       background: linear-gradient(
         90deg,
         transparent,
-        var(--lime-dim) 20%,
-        var(--lime) 50%,
-        var(--lime-dim) 80%,
+        var(--red-dim) 20%,
+        var(--red) 50%,
+        var(--red-dim) 80%,
         transparent
       );
-      box-shadow: 0 0 10px var(--lime-glow);
+      box-shadow: 0 0 10px var(--red-glow);
+      z-index: 2;
     }
 
+    /* Status label */
+    .status-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.8rem, 2.6vw, 1.1rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #cc2222;
+      text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
+      text-align: center;
+      z-index: 2;
+    }
+
+    /* Progress bar — fully filled, red */
+    .progress-wrap {
+      margin-top: 24px;
+      width: clamp(160px, 50vw, 340px);
+      height: 3px;
+      background: rgba(255, 42, 42, 0.12);
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 100%;
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+      border-radius: 2px;
+    }
+
+    /* Terminal log lines */
+    .log-wrap {
+      margin-top: 22px;
+      width: clamp(220px, 60vw, 420px);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .log-line {
+      font-size: clamp(0.62rem, 1.8vw, 0.75rem);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transform: translateY(4px);
+      animation: fadeUp 0.35s ease forwards;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .log-line.ok  { color: rgba(255, 42, 42, 0.35); }
+    .log-line.err { color: rgba(255, 42, 42, 0.75); }
+
+    .log-line:nth-child(1) { animation-delay: 0.15s; }
+    .log-line:nth-child(2) { animation-delay: 0.45s; }
+    .log-line:nth-child(3) { animation-delay: 0.75s; }
+    .log-line:nth-child(4) { animation-delay: 1.05s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtitle / CTA */
     .subtitle {
+      margin-top: 28px;
       font-family: 'Share Tech Mono', monospace;
       font-size: clamp(0.85rem, 2.8vw, 1.2rem);
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--lime-dim);
-      text-shadow: 0 0 10px rgba(57,255,20,0.3);
+      color: #cc2222;
+      text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
       text-align: center;
+      z-index: 2;
     }
 
-    /* Blinking cursor after subtitle */
     .subtitle::after {
       content: '_';
       animation: blink 1.1s step-start infinite;
-      color: var(--lime);
+      color: var(--red);
     }
 
     @keyframes blink {
@@ -201,36 +266,36 @@
       50%       { opacity: 0; }
     }
 
+    /* Bottom status row */
     .status-row {
-      margin-top: 36px;
+      position: fixed;
+      bottom: 28px;
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       letter-spacing: 0.18em;
-      color: rgba(57,255,20,0.4);
+      color: rgba(255, 42, 42, 0.35);
       text-transform: uppercase;
+      z-index: 3;
     }
 
     .dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 8px var(--lime);
-      animation: dotPulse 1.8s ease-in-out infinite;
+      background: var(--red);
+      box-shadow: 0 0 8px var(--red);
+      /* static — no pulse on error */
     }
 
-    @keyframes dotPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--lime); }
-      50%       { opacity: 0.3; box-shadow: none; }
-    }
-
-    /* Mobile tweaks */
     @media (max-width: 480px) {
       .bracket { width: 32px; height: 32px; }
-      .bracket { top: 12px !important; bottom: 12px !important; left: 12px !important; right: 12px !important; }
-      .hex-icon { width: 34px; height: 34px; }
+      .bracket.tl { top: 12px; left: 12px; }
+      .bracket.tr { top: 12px; right: 12px; }
+      .bracket.bl { bottom: 12px; left: 12px; }
+      .bracket.br { bottom: 12px; right: 12px; }
+      .hex-icon { width: 30px; height: 30px; }
     }
   </style>
 </head>
@@ -245,34 +310,50 @@
   <div class="container">
     <div class="glow-ring"></div>
 
+    <!-- Logo + Title -->
     <div class="logo-row">
-      <!-- Inline SVG hex icon -->
       <svg class="hex-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="32,4 58,18 58,46 32,60 6,46 6,18"
-                 stroke="#39ff14" stroke-width="2.5" fill="none"
-                 filter="url(#glow)" />
+                 stroke="#ff2a2a" stroke-width="2.5" fill="none"
+                 filter="url(#rglow)" />
         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
               font-family="'Orbitron',sans-serif" font-weight="900"
-              font-size="18" fill="#39ff14">CX</text>
+              font-size="18" fill="#ff2a2a">CX</text>
         <defs>
-          <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <filter id="rglow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="2.5" result="blur"/>
             <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
       </svg>
-
       <h1 class="title">Cx2c Redirect Network</h1>
     </div>
 
     <div class="divider"></div>
 
-    <p class="subtitle">Try your link again</p>
+    <p class="status-label">Routing table unavailable.</p>
 
-    <div class="status-row">
-      <div class="dot"></div>
-      <span>Node active &nbsp;|&nbsp; Routing engine online</span>
+    <!-- Filled red progress bar -->
+    <div class="progress-wrap">
+      <div class="progress-bar"></div>
     </div>
+
+    <!-- Terminal log lines -->
+    <div class="log-wrap">
+      <div class="log-line ok">&gt; Fetching redirect table...</div>
+      <div class="log-line ok">&gt; Parsing route map...</div>
+      <div class="log-line ok">&gt; Matching slug...</div>
+      <div class="log-line err">&gt; FETCH ERROR: Network request failed.</div>
+    </div>
+
+    <!-- Subtitle CTA -->
+    <p class="subtitle">Try your link again</p>
+  </div>
+
+  <!-- Bottom status bar -->
+  <div class="status-row">
+    <div class="dot"></div>
+    <span>Fetch error &nbsp;|&nbsp; Routing engine offline</span>
   </div>
 
 </body>

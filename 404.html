@@ -468,6 +468,13 @@
   <script>
     // ── Helpers ───────────────────────────────────────────────────────────────
 
+    function fadeToHome() {
+      sessionStorage.setItem('cx2c_from_error', '1');
+      document.body.style.transition = 'opacity 0.6s ease';
+      document.body.style.opacity = '0';
+      setTimeout(() => window.location.replace('/'), 650);
+    }
+
     function showLog(id, text, isErr) {
       const el = document.getElementById(id);
       if (!el) return;
@@ -524,9 +531,7 @@
             showLog('log4', '> ERROR: No route for "' + path + '"', true);
             document.getElementById('homeBtn').textContent = 'Return Home';
 
-            setTimeout(() => {
-              window.location.replace("/");
-            }, 3500);
+            setTimeout(fadeToHome, 2000);
           }
         }, 600); // slight artificial delay so logs are readable
 
@@ -539,9 +544,7 @@
         showLog('log4', '> FETCH ERROR: ' + (err.message || 'Unknown'), true);
         document.getElementById('homeBtn').textContent = 'Return Home';
 
-        setTimeout(() => {
-          window.location.replace("/");
-        }, 3500);
+        setTimeout(fadeToHome, 2000);
       });
   </script>
 </body>

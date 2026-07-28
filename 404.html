@@ -331,11 +331,14 @@
     .subtitle {
       margin-top: 28px;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.85rem, 2.8vw, 1.2rem);
+      font-size: clamp(1.1rem, 4vw, 1.8rem);
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #cc2222;
-      text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
+      color: var(--red);
+      text-shadow:
+        0 0 10px var(--red),
+        0 0 28px var(--red-glow),
+        0 0 55px rgba(255, 42, 42, 0.25);
       text-align: center;
       z-index: 2;
       opacity: 0;

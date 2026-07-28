@@ -32,7 +32,7 @@
       overflow: hidden;
     }
 
-    /* Animated grid background */
+    /* ─── Animated grid background ─────────────────────────────────────── */
     body::before {
       content: '';
       position: fixed;
@@ -50,7 +50,7 @@
       100% { background-position: 0 40px, 40px 0; }
     }
 
-    /* Scanline overlay */
+    /* ─── Scanline overlay ──────────────────────────────────────────────── */
     body::after {
       content: '';
       position: fixed;
@@ -66,14 +66,13 @@
       z-index: 1;
     }
 
-    /* Corner brackets */
+    /* ─── Corner brackets ───────────────────────────────────────────────── */
     .bracket {
       position: fixed;
       width: 48px;
       height: 48px;
       z-index: 3;
       opacity: 0.55;
-      transition: border-color 0.6s ease;
     }
     .bracket::before,
     .bracket::after {
@@ -101,13 +100,12 @@
     .bracket.br::before { top: 0; left: 0; }
     .bracket.br::after  { top: 0; left: 0; }
 
-    /* Red bracket state for error */
     body.state-error .bracket::before,
     body.state-error .bracket::after {
       background: var(--red);
     }
 
-    /* Container */
+    /* ─── Container ─────────────────────────────────────────────────────── */
     .container {
       position: relative;
       z-index: 2;
@@ -120,7 +118,7 @@
       padding: 1.5rem;
     }
 
-    /* Glow ring */
+    /* ─── Glow ring ─────────────────────────────────────────────────────── */
     .glow-ring {
       position: absolute;
       width: min(400px, 78vw);
@@ -129,7 +127,7 @@
       border: 1px solid var(--lime-glow);
       box-shadow:
         0 0 40px 6px var(--lime-glow),
-        inset 0 0 40px 6px rgba(57,255,20,0.06);
+        inset 0 0 40px 6px rgba(57, 255, 20, 0.06);
       animation: pulse 3.2s ease-in-out infinite;
       transition: border-color 0.6s ease, box-shadow 0.6s ease;
       z-index: 1;
@@ -139,7 +137,7 @@
       border-color: var(--red-glow);
       box-shadow:
         0 0 40px 6px var(--red-glow),
-        inset 0 0 40px 6px rgba(255,42,42,0.06);
+        inset 0 0 40px 6px rgba(255, 42, 42, 0.06);
     }
 
     @keyframes pulse {
@@ -147,7 +145,7 @@
       50%       { opacity: 0.9; transform: scale(1.04); }
     }
 
-    /* Logo row */
+    /* ─── Logo row ──────────────────────────────────────────────────────── */
     .logo-row {
       display: flex;
       align-items: center;
@@ -156,10 +154,17 @@
       z-index: 2;
     }
 
-    .hex-icon { width: 40px; height: 40px; flex-shrink: 0; color: #39ff14; transition: color 0.6s ease; }
+    .hex-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      color: var(--lime);
+      transition: color 0.6s ease;
+    }
 
     body.state-error .hex-icon { color: var(--red); }
 
+    /* ─── Title ─────────────────────────────────────────────────────────── */
     .title {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
@@ -170,7 +175,7 @@
       text-shadow:
         0 0 8px var(--lime),
         0 0 24px var(--lime-glow),
-        0 0 60px rgba(57,255,20,0.2);
+        0 0 60px rgba(57, 255, 20, 0.2);
       animation: flicker 6s infinite;
       line-height: 1.15;
       transition: color 0.6s ease, text-shadow 0.6s ease;
@@ -181,7 +186,7 @@
       text-shadow:
         0 0 8px var(--red),
         0 0 24px var(--red-glow),
-        0 0 60px rgba(255,42,42,0.2);
+        0 0 60px rgba(255, 42, 42, 0.2);
     }
 
     @keyframes flicker {
@@ -190,7 +195,7 @@
       95%                      { opacity: 0.88; }
     }
 
-    /* Divider */
+    /* ─── Divider ───────────────────────────────────────────────────────── */
     .divider {
       width: clamp(160px, 40vw, 320px);
       height: 1px;
@@ -220,31 +225,31 @@
       box-shadow: 0 0 10px var(--red-glow);
     }
 
-    /* Status label */
+    /* ─── Status label ──────────────────────────────────────────────────── */
     .status-label {
       font-family: 'Share Tech Mono', monospace;
       font-size: clamp(0.8rem, 2.6vw, 1.1rem);
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--lime-dim);
-      text-shadow: 0 0 10px rgba(57,255,20,0.3);
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
       text-align: center;
       z-index: 2;
-      transition: color 0.6s ease;
+      transition: color 0.6s ease, text-shadow 0.6s ease;
       min-height: 1.5em;
     }
 
     body.state-error .status-label {
       color: #cc2222;
-      text-shadow: 0 0 10px rgba(255,42,42,0.3);
+      text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
     }
 
-    /* Progress / loading bar */
+    /* ─── Progress bar ──────────────────────────────────────────────────── */
     .progress-wrap {
-      margin-top: 28px;
+      margin-top: 24px;
       width: clamp(160px, 50vw, 340px);
       height: 3px;
-      background: rgba(57,255,20,0.12);
+      background: rgba(57, 255, 20, 0.12);
       border-radius: 2px;
       overflow: hidden;
       z-index: 2;
@@ -252,7 +257,7 @@
     }
 
     body.state-error .progress-wrap {
-      background: rgba(255,42,42,0.12);
+      background: rgba(255, 42, 42, 0.12);
     }
 
     .progress-bar {
@@ -262,7 +267,6 @@
       box-shadow: 0 0 8px var(--lime);
       border-radius: 2px;
       transition: background 0.6s ease, box-shadow 0.6s ease, width 0.4s ease;
-      animation: none;
     }
 
     body.state-loading .progress-bar {
@@ -278,18 +282,17 @@
       width: 100%;
       background: var(--red);
       box-shadow: 0 0 8px var(--red);
-      transition: width 0.6s ease, background 0.6s ease;
     }
 
     @keyframes scanProgress {
-      0%   { width: 0%;   margin-left: 0%; }
-      50%  { width: 60%;  margin-left: 20%; }
-      100% { width: 0%;   margin-left: 100%; }
+      0%   { width: 0%;  margin-left: 0%; }
+      50%  { width: 60%; margin-left: 20%; }
+      100% { width: 0%;  margin-left: 100%; }
     }
 
-    /* Log lines */
+    /* ─── Terminal log lines ────────────────────────────────────────────── */
     .log-wrap {
-      margin-top: 24px;
+      margin-top: 22px;
       width: clamp(220px, 60vw, 420px);
       display: flex;
       flex-direction: column;
@@ -300,10 +303,10 @@
     .log-line {
       font-size: clamp(0.62rem, 1.8vw, 0.75rem);
       letter-spacing: 0.1em;
-      color: rgba(57,255,20,0.35);
+      color: rgba(57, 255, 20, 0.35);
       opacity: 0;
       transform: translateY(4px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity 0.35s ease, transform 0.35s ease, color 0.6s ease;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -314,41 +317,46 @@
       transform: translateY(0);
     }
 
+    /* In error state, ok-lines go dim red to match index.html exactly */
+    body.state-error .log-line.ok {
+      color: rgba(255, 42, 42, 0.35);
+    }
+
     .log-line.err {
-      color: rgba(255,42,42,0.5);
+      color: rgba(255, 42, 42, 0.75);
     }
 
-    /* Home button — only shows on error */
-    .home-btn {
-      display: none;
+    /* ─── Subtitle (appears on error) ───────────────────────────────────── */
+    .subtitle {
       margin-top: 28px;
-      padding: 10px 28px;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.7rem, 2vw, 0.9rem);
-      letter-spacing: 0.2em;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: clamp(0.85rem, 2.8vw, 1.2rem);
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--black);
-      background: var(--red);
-      border: none;
-      cursor: pointer;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-      box-shadow: 0 0 16px var(--red-glow);
-      text-decoration: none;
-      transition: background 0.2s ease, box-shadow 0.2s ease;
+      color: #cc2222;
+      text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
+      text-align: center;
       z-index: 2;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.3s; /* slight delay so color transitions finish first */
     }
 
-    .home-btn:hover {
-      background: #ff5555;
-      box-shadow: 0 0 28px rgba(255,42,42,0.7);
+    .subtitle::after {
+      content: '_';
+      animation: blink 1.1s step-start infinite;
+      color: var(--red);
     }
 
-    body.state-error .home-btn {
-      display: inline-block;
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
     }
 
-    /* Bottom status row */
+    body.state-error .subtitle {
+      opacity: 1;
+    }
+
+    /* ─── Bottom status row ─────────────────────────────────────────────── */
     .status-row {
       position: fixed;
       bottom: 28px;
@@ -357,9 +365,14 @@
       gap: 10px;
       font-size: 0.68rem;
       letter-spacing: 0.18em;
-      color: rgba(57,255,20,0.35);
+      color: rgba(57, 255, 20, 0.35);
       text-transform: uppercase;
       z-index: 3;
+      transition: color 0.6s ease;
+    }
+
+    body.state-error .status-row {
+      color: rgba(255, 42, 42, 0.35);
     }
 
     .dot {
@@ -370,6 +383,7 @@
       box-shadow: 0 0 8px var(--lime);
       animation: dotPulse 1.8s ease-in-out infinite;
       transition: background 0.6s ease, box-shadow 0.6s ease;
+      flex-shrink: 0;
     }
 
     body.state-error .dot {
@@ -379,24 +393,25 @@
     }
 
     @keyframes dotPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--lime); }
-      50%       { opacity: 0.3; box-shadow: none; }
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
     }
 
-    /* Slug display */
+    /* ─── Slug display ──────────────────────────────────────────────────── */
     .slug-display {
       font-size: clamp(0.6rem, 1.6vw, 0.72rem);
       letter-spacing: 0.14em;
-      color: rgba(57,255,20,0.22);
+      color: rgba(57, 255, 20, 0.22);
       margin-top: 10px;
       z-index: 2;
       transition: color 0.6s ease;
     }
 
     body.state-error .slug-display {
-      color: rgba(255,42,42,0.25);
+      color: rgba(255, 42, 42, 0.25);
     }
 
+    /* ─── Mobile ────────────────────────────────────────────────────────── */
     @media (max-width: 480px) {
       .bracket { width: 32px; height: 32px; }
       .bracket.tl { top: 12px; left: 12px; }
@@ -449,14 +464,14 @@
 
     <!-- Terminal log lines -->
     <div class="log-wrap" id="logWrap">
-      <div class="log-line" id="log1">&gt; Fetching redirect table...</div>
-      <div class="log-line" id="log2">&gt; Parsing route map...</div>
-      <div class="log-line" id="log3" id="log3">&gt; Matching slug...</div>
-      <div class="log-line" id="log4"></div>
+      <div class="log-line ok" id="log1">&gt; Fetching redirect table...</div>
+      <div class="log-line ok" id="log2">&gt; Parsing route map...</div>
+      <div class="log-line ok" id="log3">&gt; Matching slug...</div>
+      <div class="log-line"   id="log4"></div>
     </div>
 
-    <!-- Error fallback button -->
-    <a class="home-btn" href="/" id="homeBtn">Return Home</a>
+    <!-- Subtitle: only visible on error state (matches index.html) -->
+    <p class="subtitle" id="subtitle">Try your link again</p>
   </div>
 
   <!-- Bottom status bar -->
@@ -466,21 +481,26 @@
   </div>
 
   <script>
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    // ── Helpers ──────────────────────────────────────────────────────────────
 
+    /**
+     * Fade the entire page out, store the handoff flag, then navigate to /.
+     * Fades document.documentElement so it matches what index.html's head
+     * script hides — same element, same opacity, invisible seam.
+     */
     function fadeToHome() {
       sessionStorage.setItem('cx2c_from_error', '1');
-      document.body.style.transition = 'opacity 0.6s ease';
-      document.body.style.opacity = '0';
-      setTimeout(() => window.location.replace('/'), 650);
+      document.documentElement.style.transition = 'opacity 0.55s ease';
+      document.documentElement.style.opacity    = '0';
+      setTimeout(function () { window.location.replace('/'); }, 600);
     }
 
-    function showLog(id, text, isErr) {
-      const el = document.getElementById(id);
+    function showLog(id, text, cls) {
+      var el = document.getElementById(id);
       if (!el) return;
       if (text !== undefined) el.textContent = text;
-      if (isErr) el.classList.add('err');
-      setTimeout(() => el.classList.add('visible'), 10);
+      if (cls) { el.classList.remove('ok'); el.classList.add(cls); }
+      setTimeout(function () { el.classList.add('visible'); }, 10);
     }
 
     function setState(state) {
@@ -495,54 +515,52 @@
       document.getElementById('nodeStatus').textContent = text;
     }
 
-    // ── Boot ──────────────────────────────────────────────────────────────────
+    // ── Boot ─────────────────────────────────────────────────────────────────
 
-    const path = window.location.pathname.replace(/\/$/, "") || "/";
+    var path = window.location.pathname.replace(/\/$/, '') || '/';
     document.getElementById('slugDisplay').textContent = 'slug: ' + path;
 
-    // Stagger log lines in
-    setTimeout(() => showLog('log1'), 120);
-    setTimeout(() => showLog('log2'), 480);
-    setTimeout(() => showLog('log3'), 820);
+    // Stagger first three log lines in
+    setTimeout(function () { showLog('log1'); },  120);
+    setTimeout(function () { showLog('log2'); },  480);
+    setTimeout(function () { showLog('log3'); },  820);
 
-    // ── Redirect logic ────────────────────────────────────────────────────────
+    // ── Redirect logic ───────────────────────────────────────────────────────
 
     fetch('/redirects.json')
-      .then(response => response.json())
-      .then(data => {
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
 
-        setTimeout(() => {
+        setTimeout(function () {
           if (data[path]) {
             // ✅ Match found — redirect
             setState('redirect');
             setStatus('Route found. Routing...');
             setNodeStatus('Match confirmed | Redirecting');
-            showLog('log4', '> Match found → ' + data[path]);
+            showLog('log4', '> Match found \u2192 ' + data[path]);
 
-            setTimeout(() => {
+            setTimeout(function () {
               window.location.replace(data[path]);
             }, 800);
 
           } else {
-            // ❌ No match
+            // ❌ No route match — error state then hand off to index
             setState('error');
-            setStatus('Link not found.');
-            setNodeStatus('No route match | Standing by');
-            showLog('log4', '> ERROR: No route for "' + path + '"', true);
-            document.getElementById('homeBtn').textContent = 'Return Home';
+            setStatus('Routing table unavailable.');
+            setNodeStatus('Fetch error\u00a0\u00a0|\u00a0\u00a0Routing engine offline');
+            showLog('log4', '> FETCH ERROR: Network request failed.', 'err');
 
             setTimeout(fadeToHome, 2000);
           }
-        }, 600); // slight artificial delay so logs are readable
+        }, 600);
 
       })
-      .catch(err => {
-        // 🔴 Fetch failed
+      .catch(function (err) {
+        // 🔴 Fetch failed — error state then hand off to index
         setState('error');
         setStatus('Routing table unavailable.');
-        setNodeStatus('Fetch error | Falling back');
-        showLog('log4', '> FETCH ERROR: ' + (err.message || 'Unknown'), true);
-        document.getElementById('homeBtn').textContent = 'Return Home';
+        setNodeStatus('Fetch error\u00a0\u00a0|\u00a0\u00a0Routing engine offline');
+        showLog('log4', '> FETCH ERROR: Network request failed.', 'err');
 
         setTimeout(fadeToHome, 2000);
       });

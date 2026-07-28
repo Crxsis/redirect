@@ -4,12 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cx2c Redirect Network</title>
-  <!-- Prevent flash when arriving from 404 error handoff -->
+
+  <!--
+    SEAMLESS HANDOFF SCRIPT — must run before <style> is parsed.
+    Setting data-instant on <html> here means the html[data-instant] CSS
+    rules below are TRUE when the browser first builds the CSSOM, so
+    animation:none applies at first paint with zero race condition.
+  -->
   <script>
     if (sessionStorage.getItem('cx2c_from_error')) {
+      document.documentElement.setAttribute('data-instant', '');
       document.documentElement.style.opacity = '0';
     }
   </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
 
@@ -36,7 +44,7 @@
       overflow: hidden;
     }
 
-    /* Animated grid background */
+    /* ─── Animated grid background ─────────────────────────────────────── */
     body::before {
       content: '';
       position: fixed;
@@ -54,7 +62,7 @@
       100% { background-position: 0 40px, 40px 0; }
     }
 
-    /* Scanline overlay */
+    /* ─── Scanline overlay ──────────────────────────────────────────────── */
     body::after {
       content: '';
       position: fixed;
@@ -70,7 +78,7 @@
       z-index: 1;
     }
 
-    /* Corner brackets */
+    /* ─── Corner brackets ───────────────────────────────────────────────── */
     .bracket {
       position: fixed;
       width: 48px;
@@ -103,7 +111,7 @@
     .bracket.br::before { top: 0; left: 0; }
     .bracket.br::after  { top: 0; left: 0; }
 
-    /* Container */
+    /* ─── Container ─────────────────────────────────────────────────────── */
     .container {
       position: relative;
       z-index: 2;
@@ -116,7 +124,7 @@
       padding: 1.5rem;
     }
 
-    /* Glow ring */
+    /* ─── Glow ring ─────────────────────────────────────────────────────── */
     .glow-ring {
       position: absolute;
       width: min(400px, 78vw);
@@ -135,7 +143,7 @@
       50%       { opacity: 1;    transform: scale(1.04); }
     }
 
-    /* Logo row */
+    /* ─── Logo row ──────────────────────────────────────────────────────── */
     .logo-row {
       display: flex;
       align-items: center;
@@ -146,7 +154,7 @@
 
     .hex-icon { width: 40px; height: 40px; flex-shrink: 0; }
 
-    /* Title */
+    /* ─── Title ─────────────────────────────────────────────────────────── */
     .title {
       font-family: 'Orbitron', sans-serif;
       font-weight: 900;
@@ -168,7 +176,7 @@
       93%                      { opacity: 0.85; }
     }
 
-    /* Divider */
+    /* ─── Divider ───────────────────────────────────────────────────────── */
     .divider {
       width: clamp(160px, 40vw, 320px);
       height: 1px;
@@ -185,7 +193,7 @@
       z-index: 2;
     }
 
-    /* Status label */
+    /* ─── Status label ──────────────────────────────────────────────────── */
     .status-label {
       font-family: 'Share Tech Mono', monospace;
       font-size: clamp(0.8rem, 2.6vw, 1.1rem);
@@ -197,7 +205,7 @@
       z-index: 2;
     }
 
-    /* Progress bar — fully filled, red */
+    /* ─── Progress bar (fully filled, red) ─────────────────────────────── */
     .progress-wrap {
       margin-top: 24px;
       width: clamp(160px, 50vw, 340px);
@@ -215,7 +223,7 @@
       border-radius: 2px;
     }
 
-    /* Terminal log lines */
+    /* ─── Terminal log lines ────────────────────────────────────────────── */
     .log-wrap {
       margin-top: 22px;
       width: clamp(220px, 60vw, 420px);
@@ -248,14 +256,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Skip log animations when arriving mid-flow from 404 */
-    body.instant .log-line {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: translateY(0) !important;
-    }
-
-    /* Subtitle / CTA */
+    /* ─── Subtitle / CTA ────────────────────────────────────────────────── */
     .subtitle {
       margin-top: 28px;
       font-family: 'Share Tech Mono', monospace;
@@ -279,7 +280,7 @@
       50%       { opacity: 0; }
     }
 
-    /* Bottom status row */
+    /* ─── Bottom status row ─────────────────────────────────────────────── */
     .status-row {
       position: fixed;
       bottom: 28px;
@@ -299,9 +300,9 @@
       border-radius: 50%;
       background: var(--red);
       box-shadow: 0 0 8px var(--red);
-      /* static — no pulse on error */
     }
 
+    /* ─── Mobile ────────────────────────────────────────────────────────── */
     @media (max-width: 480px) {
       .bracket { width: 32px; height: 32px; }
       .bracket.tl { top: 12px; left: 12px; }
@@ -309,6 +310,24 @@
       .bracket.bl { bottom: 12px; left: 12px; }
       .bracket.br { bottom: 12px; right: 12px; }
       .hex-icon { width: 30px; height: 30px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       INSTANT MODE — arriving from 404 handoff
+       data-instant is set on <html> by the <head> script BEFORE this <style>
+       block is parsed, so these rules are true at first paint.
+       All animations are killed immediately — no stagger, no flash.
+    ═══════════════════════════════════════════════════════════════════════ */
+    html[data-instant] *,
+    html[data-instant] *::before,
+    html[data-instant] *::after {
+      animation: none !important;
+    }
+
+    /* Log lines start at opacity:0 by default; show them immediately. */
+    html[data-instant] .log-line {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
     }
   </style>
 </head>
@@ -346,12 +365,10 @@
 
     <p class="status-label">Routing table unavailable.</p>
 
-    <!-- Filled red progress bar -->
     <div class="progress-wrap">
       <div class="progress-bar"></div>
     </div>
 
-    <!-- Terminal log lines -->
     <div class="log-wrap">
       <div class="log-line ok">&gt; Fetching redirect table...</div>
       <div class="log-line ok">&gt; Parsing route map...</div>
@@ -359,27 +376,35 @@
       <div class="log-line err">&gt; FETCH ERROR: Network request failed.</div>
     </div>
 
-    <!-- Subtitle CTA -->
     <p class="subtitle">Try your link again</p>
   </div>
 
-  <!-- Bottom status bar -->
   <div class="status-row">
     <div class="dot"></div>
     <span>Fetch error &nbsp;|&nbsp; Routing engine offline</span>
   </div>
 
+  <!--
+    HANDOFF FADE-IN — runs after DOM is ready.
+    Keeps data-instant active during the fade so nothing animates while
+    fading in. Removes it after fade completes so the page comes alive.
+  -->
   <script>
     (function () {
       if (sessionStorage.getItem('cx2c_from_error')) {
         sessionStorage.removeItem('cx2c_from_error');
-        // Suppress log stagger — content already played out on 404
-        document.body.classList.add('instant');
-        // Fade in at same rate as 404 faded out
+
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            document.documentElement.style.transition = 'opacity 0.6s ease';
-            document.documentElement.style.opacity = '1';
+            // Fade the whole page in — data-instant keeps content frozen
+            document.documentElement.style.transition = 'opacity 0.55s ease';
+            document.documentElement.style.opacity   = '1';
+
+            // Once fully visible, release animations so the page feels alive
+            setTimeout(function () {
+              document.documentElement.removeAttribute('data-instant');
+              document.documentElement.style.transition = '';
+            }, 600);
           });
         });
       }

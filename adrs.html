@@ -626,20 +626,7 @@
       progressBar.style.width = pct + '%';
       progressLabel.textContent = currentIndex + ' / ' + total;
 
-      // If this is the last one, skip countdown UI and finish
-      if (currentIndex === total - 1) {
-        // Mark done after a beat
-        setTimeout(function () {
-          setItemState(currentIndex, 'done');
-          currentIndex++;
-          progressBar.style.width = '100%';
-          progressLabel.textContent = total + ' / ' + total;
-          allDone();
-        }, 800);
-        return;
-      }
-
-      // Show countdown to next download
+      // Show countdown before moving to next (or finishing if last)
       var secsTotal = Math.round(INTERVAL_MS / 1000);
       countdownNum.textContent = secsTotal;
       setRing(secsTotal, secsTotal);
@@ -647,8 +634,15 @@
       startCountdown(secsTotal, function () {
         setItemState(currentIndex, 'done');
         currentIndex++;
-        // Brief pause before next item activates
-        setTimeout(processNext, 150);
+        progressBar.style.width = (currentIndex / total * 100) + '%';
+        progressLabel.textContent = currentIndex + ' / ' + total;
+        if (currentIndex >= total) {
+          // Last item countdown just finished — show done now
+          allDone();
+        } else {
+          // Brief pause before next item activates
+          setTimeout(processNext, 150);
+        }
       });
     }
 

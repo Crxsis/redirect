@@ -156,7 +156,9 @@
       z-index: 2;
     }
 
-    .hex-icon { width: 40px; height: 40px; flex-shrink: 0; }
+    .hex-icon { width: 40px; height: 40px; flex-shrink: 0; color: #39ff14; }
+
+    body.state-error .hex-icon { color: var(--red); }
 
     .title {
       font-family: 'Orbitron', sans-serif;
@@ -420,11 +422,11 @@
     <div class="logo-row">
       <svg class="hex-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="32,4 58,18 58,46 32,60 6,46 6,18"
-                 stroke="#39ff14" stroke-width="2.5" fill="none"
+                 stroke="currentColor" stroke-width="2.5" fill="none"
                  filter="url(#glow)" />
         <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
               font-family="'Orbitron',sans-serif" font-weight="900"
-              font-size="18" fill="#39ff14">CX</text>
+              font-size="18" fill="currentColor">CC</text>
         <defs>
           <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation="2.5" result="blur"/>

@@ -319,7 +319,6 @@
       transform: translateY(0);
     }
 
-    /* In error state, ok-lines go dim red to match index.html exactly */
     body.state-error .log-line.ok {
       color: rgba(255, 42, 42, 0.35);
     }
@@ -340,7 +339,7 @@
       text-align: center;
       z-index: 2;
       opacity: 0;
-      transition: opacity 0.6s ease 0.3s; /* slight delay so color transitions finish first */
+      transition: opacity 0.6s ease 0.3s;
     }
 
     .subtitle::after {
@@ -416,6 +415,23 @@
       color: rgba(255, 42, 42, 0.25);
     }
 
+    /* ─── Black page overlay — used for flash-free navigation ───────────── */
+    /*
+      Sits above everything. Starts transparent. fadeToHome() transitions it
+      to opacity:1 (pure black, no browser canvas visible), THEN navigates.
+      This keeps the background fully black during the page transition —
+      no html element opacity is ever lowered.
+    */
+    #page-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: opacity 0.55s ease;
+    }
+
     /* ─── Mobile ────────────────────────────────────────────────────────── */
     @media (max-width: 480px) {
       .bracket { width: 32px; height: 32px; }
@@ -485,18 +501,27 @@
     <span id="nodeStatus">Routing engine online &nbsp;|&nbsp; Resolving...</span>
   </div>
 
+  <!--
+    Black overlay div — starts transparent, fades to opaque before navigation.
+    Keeps the canvas black at all times; no html/body opacity is ever touched.
+  -->
+  <div id="page-overlay"></div>
+
   <script>
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     /**
-     * Fade the entire page out, store the handoff flag, then navigate to /.
-     * Fades document.documentElement so it matches what index.html's head
-     * script hides — same element, same opacity, invisible seam.
+     * Fade the solid black overlay div to fully opaque, store the handoff
+     * flag, then navigate to /. The background stays black the entire time —
+     * no transparent html element, no white browser canvas.
      */
     function fadeToHome() {
       sessionStorage.setItem('cx2c_from_error', '1');
-      document.documentElement.style.transition = 'opacity 0.55s ease';
-      document.documentElement.style.opacity    = '0';
+      var overlay = document.getElementById('page-overlay');
+      // Allow pointer events so nothing can be clicked during fade-out
+      overlay.style.pointerEvents = 'all';
+      // Trigger the CSS transition to black
+      overlay.style.opacity = '1';
       setTimeout(function () { window.location.replace('/'); }, 600);
     }
 

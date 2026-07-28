@@ -6,17 +6,17 @@
   <title>Cx2c Redirect Network</title>
 
   <!--
-    SEAMLESS HANDOFF SCRIPT — must run before <style> is parsed.
-    Setting data-instant on <html> here means the html[data-instant] CSS
-    rules below are TRUE when the browser first builds the CSSOM, so
-    animation:none applies at first paint with zero race condition.
+    SEAMLESS HANDOFF SCRIPT — runs before <style> is parsed.
+    If arriving from 404 error handoff, mark <html> so the CSS rule
+    html[data-instant] kills all animations at first paint (no race),
+    and set data-arriving so the overlay CSS pins it to opacity:1.
   -->
   <script>
     /* Always pin black before CSS parses — eliminates white flash on any load */
     document.documentElement.style.backgroundColor = '#000';
     if (sessionStorage.getItem('cx2c_from_error')) {
       document.documentElement.setAttribute('data-instant', '');
-      document.documentElement.style.opacity = '0';
+      document.documentElement.setAttribute('data-arriving', '');
     }
   </script>
 
@@ -269,6 +269,13 @@
       text-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
       text-align: center;
       z-index: 2;
+      /* Pulse in sync with the glow ring (3.2s, same easing) */
+      animation: subtitlePulse 3.2s ease-in-out infinite;
+    }
+
+    @keyframes subtitlePulse {
+      0%, 100% { opacity: 0.45; }
+      50%       { opacity: 1; }
     }
 
     .subtitle::after {
@@ -305,6 +312,27 @@
       border-radius: 50%;
       background: var(--red);
       box-shadow: 0 0 8px var(--red);
+    }
+
+    /* ─── Black page overlay — used for flash-free navigation ───────────── */
+    /*
+      Starts transparent by default. When arriving from 404 handoff,
+      html[data-arriving] pins it to opacity:1 at first paint (CSSOM is built
+      with this rule true), so the page is invisible behind it.
+      The body script then fades it to 0 over 0.55s and removes the attribute.
+    */
+    #page-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: opacity 0.55s ease;
+    }
+
+    html[data-arriving] #page-overlay {
+      opacity: 1;
     }
 
     /* ─── Mobile ────────────────────────────────────────────────────────── */
@@ -390,6 +418,13 @@
   </div>
 
   <!--
+    Black overlay div — always present. When arriving from 404 handoff it
+    starts opaque (pinned by html[data-arriving] CSS), then JS fades it out.
+    On a normal load it stays at opacity:0 and is invisible.
+  -->
+  <div id="page-overlay"></div>
+
+  <!--
     HANDOFF FADE-IN — runs after DOM is ready.
     Keeps data-instant active during the fade so nothing animates while
     fading in. Removes it after fade completes so the page comes alive.
@@ -399,16 +434,23 @@
       if (sessionStorage.getItem('cx2c_from_error')) {
         sessionStorage.removeItem('cx2c_from_error');
 
+        var overlay = document.getElementById('page-overlay');
+
+        // Force the overlay to be opaque right now (belt-and-suspenders
+        // alongside the html[data-arriving] CSS rule).
+        overlay.style.opacity = '1';
+
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            // Fade the whole page in — data-instant keeps content frozen
-            document.documentElement.style.transition = 'opacity 0.55s ease';
-            document.documentElement.style.opacity   = '1';
+            // Remove data-arriving so the CSS rule stops pinning opacity:1,
+            // then let the transition take over and fade to 0.
+            document.documentElement.removeAttribute('data-arriving');
+            overlay.style.opacity = '0';
 
-            // Once fully visible, release animations so the page feels alive
+            // Once the overlay has fully faded, release animations so the
+            // page comes alive (glow ring pulse, title flicker, etc.).
             setTimeout(function () {
               document.documentElement.removeAttribute('data-instant');
-              document.documentElement.style.transition = '';
             }, 600);
           });
         });
